@@ -44,7 +44,7 @@ namespace SeleniumPrj
         static void LanguagesTest(IWebDriver driver)
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
-            driver.FindElement(By.Id("select-language")).Click();
+            driver.FindElement(By.CssSelector("#select-language")).Click();
             driver.FindElement(By.CssSelector("#select-language > option:nth-child(2)")).Click();
             driver.Quit();
         }
@@ -52,9 +52,9 @@ namespace SeleniumPrj
         static void SearchTest(IWebDriver driver)
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
-            WebElement elem = (WebElement)driver.FindElement(By.Id("search"));
+            WebElement elem = (WebElement)driver.FindElement(By.CssSelector("div.input-box input"));
             elem.SendKeys("woman");
-            driver.FindElement(By.XPath("//*[@id='search_mini_form']/div[1]/button")).Click();
+            elem.Submit();
             driver.Quit();
 
         }
@@ -62,65 +62,67 @@ namespace SeleniumPrj
         static void NewProductListTest(IWebDriver driver)
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
-            driver.FindElement(By.XPath("//*[@id='nav']/ol/li[1]/a")).Click();
-            driver.FindElement(By.XPath("//*[@id='top']/body/div/div/div[2]/div/div[2]/ul/li[1]/a")).Click();
-            Console.WriteLine("Size of the list: "+ driver.FindElements(By.XPath("//*[@id='top']/body/div/div/div[2]/div/div[2]/div[2]/div[3]/ul/li")).Count());
+            driver.FindElement(By.CssSelector("#nav > ol > li > a")).Click();
+            WebElement elem = (WebElement)driver.FindElement(By.CssSelector("body > div > div > div.main-container.col1-layout > div > div.col-main > ul > li"));
+            elem.Click();
+            Console.WriteLine("Size of the list: "+ driver.FindElements(By.CssSelector("div.col-main > ul > li")).Count()); //size 0
             driver.Quit();
         }
 
         static void NavigationTest(IWebDriver driver)
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
-            driver.FindElement(By.XPath("//*[@id='nav']/ol/li[5]/a")).Click();
-            driver.FindElement(By.XPath("//*[@id='top']/body/div/div/div[2]/div/div[2]/div[2]/div[3]/ul/li[2]/a")).Click();
+            driver.FindElement(By.CssSelector("#nav > ol > li.level0.nav-5.parent > a")).Click();
+            driver.FindElement(By.CssSelector("div.col-main > div.category-products > ul > li:nth-child(2)")).Click();
             driver.Quit();
         }
 
         static void AddProductToCartTest(IWebDriver driver)
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
-            driver.FindElement(By.XPath("//*[@id='nav']/ol/li[5]/a")).Click();
-            driver.FindElement(By.XPath("//*[@id='top']/body/div/div/div[2]/div/div[2]/div[2]/div[3]/ul/li[2]/a")).Click();
-            driver.FindElement(By.Id("swatch18")).Click();
-            driver.FindElement(By.Id("swatch81")).Click();
-            WebElement elem = (WebElement)driver.FindElement(By.Id("qty"));
+            driver.FindElement(By.CssSelector("#nav > ol > li.level0.nav-5.parent > a")).Click();
+            driver.FindElement(By.CssSelector("div.col-main > div.category-products > ul > li:nth-child(2)")).Click();
+            driver.FindElement(By.CssSelector("#swatch18")).Click();
+            driver.FindElement(By.CssSelector("#swatch81")).Click();
+            WebElement elem = (WebElement)driver.FindElement(By.CssSelector("#qty"));
             elem.Clear();
             elem.SendKeys("1");
-            driver.FindElement(By.XPath("//*[@id='product_addtocart_form']/div[3]/div[6]/div[2]/div[2]/button")).Click();
+            driver.FindElement(By.CssSelector("#product_addtocart_form > div.product-shop > div.product-options-bottom > div.add-to-cart > div.add-to-cart-buttons > button")).Click();
             driver.Quit();
         }
 
         static void RemoveProductFromCartTest(IWebDriver driver)
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
-            driver.FindElement(By.XPath("//*[@id='nav']/ol/li[5]/a")).Click();
-            driver.FindElement(By.XPath("//*[@id='top']/body/div/div/div[2]/div/div[2]/div[2]/div[3]/ul/li[2]/a")).Click();
-            driver.FindElement(By.Id("swatch18")).Click();
-            driver.FindElement(By.Id("swatch81")).Click();
-            driver.FindElement(By.XPath("//*[@id='product_addtocart_form']/div[3]/div[6]/div[2]/div[2]/button")).Click();
+            driver.FindElement(By.CssSelector("#nav > ol > li.level0.nav-5.parent > a")).Click();
+            driver.FindElement(By.CssSelector("div.col-main > div.category-products > ul > li:nth-child(2)")).Click();
+            driver.FindElement(By.CssSelector("#swatch18")).Click();
+            driver.FindElement(By.CssSelector("#swatch81")).Click();
+            driver.FindElement(By.CssSelector("#product_addtocart_form > div.product-shop > div.product-options-bottom > div.add-to-cart > div.add-to-cart-buttons > button")).Click();
             driver.Navigate().Back();
             driver.Navigate().Back();
-            driver.FindElement(By.XPath("//*[@id='top']/body/div/div/div[2]/div/div[2]/div[2]/div[3]/ul/li[3]/a")).Click();
-            driver.FindElement(By.Id("swatch27")).Click();
-            driver.FindElement(By.Id("swatch81")).Click();
-            driver.FindElement(By.XPath("//*[@id='product_addtocart_form']/div[3]/div[6]/div[2]/div[2]/button")).Click();
-            driver.FindElement(By.XPath("/html/body/div/div/div[2]/div/div/div[2]/form/table/tbody/tr[1]/td[6]/a")).Click();
+            driver.FindElement(By.CssSelector("div.col-main > div.category-products > ul > li:nth-child(3) > a")).Click();
+            driver.FindElement(By.CssSelector("#swatch27")).Click();
+            driver.FindElement(By.CssSelector("#swatch81")).Click();
+            driver.FindElement(By.CssSelector("#product_addtocart_form > div.product-shop > div.product-options-bottom > div.add-to-cart > div.add-to-cart-buttons > button")).Click();
+            driver.FindElement(By.CssSelector("#shopping-cart-table > tbody > tr.first.odd > td.a-center.product-cart-remove.last > a")).Click();
             driver.Quit();
         }
 
-        static void SubmitReviewTest(IWebDriver driver)
+        static void SubmitReviewTest(IWebDriver driver)//revin
         {
             driver.Navigate().GoToUrl("http://qa1magento.dev.evozon.com");
+            driver.FindElement(By.CssSelector("#nav > ol > li.level0.nav-5.parent > a")).Click();
+            driver.FindElement(By.CssSelector("div.col-main > div.category-products > ul > li:nth-child(2)")).Click();
+
+
             //Click on any category
             //Select a random product
             //Press the Review section
             //Complete the all the required fields
             //Click the 'Submit Review' button"
-
-            //IWebElement element = WebDriver.FindElement(By.Id("submit"));
-            //element.Submit();
             driver.Quit();
-        }//revin
+        }
 
         static void RegisterNewUserTest(IWebDriver driver)
         {
